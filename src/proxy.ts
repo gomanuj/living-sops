@@ -3,9 +3,9 @@ import { NextResponse } from "next/server";
 
 const isProtectedRoute = createRouteMatcher(["/app(.*)"]);
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   if (isProtectedRoute(req)) {
-    const { userId } = auth();
+    const { userId } = await auth();
 
     if (!userId) {
       return NextResponse.redirect(new URL("/sign-in", req.url));
